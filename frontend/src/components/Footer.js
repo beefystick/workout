@@ -1,19 +1,17 @@
-const Footer = () => {
-    return (
-        <footer className="text-center bg-light pt-1">
-            <span>Made with <i className="fa fa-heart"/> by </span>
-            <a href={process.env.REACT_APP_AUTHOR_LINKEDIN_URL} target="_blank" rel="noreferrer">
-                Vladislav Moroshan
-            </a>
-
-            <div>
-                <a href={process.env.REACT_APP_GITHUB_URL} target="_blank" rel="noreferrer">
-                    <i className="fab fa-github"/> {process.env.REACT_APP_NAME}
-                </a>
-                <span> ©2022</span>
-            </div>
-        </footer>
-    );
-};
+const Footer = () => (
+  <footer className="text-center bg-light py-3">
+    <p className="mb-0">
+      Made with JavaScript, CSS, HTML, Django, and SQLite by{' '}
+      <a href="https://gregarious-dasik-0d8f26.netlify.app" target="_blank" rel="noreferrer">
+        Gyan ©2023
+      </a>
+    </p>
+    <p className="mb-0">
+      <small className="text-muted">
+        <i className="fas fa-exclamation-circle me-1"/> App is a work in progress, thank you for your understanding <i className="fas fa-exclamation-circle ms-1"/>
+      </small>
+    </p>
+  </footer>
+);
 
 export default Footer;

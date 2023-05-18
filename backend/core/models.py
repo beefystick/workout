@@ -42,64 +42,25 @@ class Workout(IndexedTimeStampedModel):
 
 # Excercise model - [FK] User
 class Exercise(models.Model):
-    BODY_PARTS = (
-        ('abdominals', 'Abdominals'),
-        ('biceps', 'Biceps'),
-        ('calves', 'Calves'),
-        ('chest', 'Chest'),
-        ('deltoids_front', 'Deltoids (Front)'),
-        ('deltoids_middle', 'Deltoids (Middle)'),
-        ('deltoids_rear', 'Deltoids (Rear)'),
-        ('forearms', 'Forearms'),
-        ('glutes', 'Glutes'),
-        ('hamstrings', 'Hamstrings'),
-        ('lats', 'Lats'),
-        ('quadriceps', 'Quadriceps'),
-        ('rhomboids', 'Rhomboids'),
-        ('spinal_erectors', 'Spinal Erectors'),
-        ('trapezius', 'Trapezius'),
-        ('triceps', 'Triceps'),
-        ('other', 'Other'),
-    )
-
-    EQUIPMENT = (
-        ('barbell', 'Barbell'),
-        ('bands', 'Bands'),
-        ('bodyweight', 'Bodyweight'),
-        ('cable', 'Cable'),
-        ('cardio', 'Cardio'),
-        ('dumbbell', 'Dumbbell'),
-        ('kettlebell', 'Kettlebell'),
-        ('machine', 'Machine'),
-        ('other', 'Other'),
-    )
+    bodyPart = models.CharField(max_length=100, null=True)
+    equipment = models.CharField(max_length=100, null=True)
+    gifUrl = models.URLField(max_length=200, null=True)
+    api_id = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100, null=True)
+    target = models.CharField(max_length=100, null=True)
     
-    body_part = models.CharField(max_length=16, choices=BODY_PARTS) # Add ability to select multiple body parts
-    equipment = models.CharField(max_length=16, choices=EQUIPMENT) # Add ability to select multiple equipments
-    name = models.CharField(max_length=64)
-    description = models.TextField(max_length=512, blank=True, null=True)
-    user = models.ForeignKey(User, related_name="exercises", on_delete=models.CASCADE, blank=True, null=True)
+    sets = models.PositiveIntegerField(null=True, default=0)
+    weight = models.FloatField(null=True, default=0)
+    reps = models.PositiveIntegerField(null=True, default=0)
 
-    @classproperty
-    def body_part_list(self):
-        return [item[0] for item in self.BODY_PARTS]
-
-    @classproperty
-    def equipment_list(self):
-        return [item[0] for item in self.EQUIPMENT]
-
-    # Must be removed when adding ability for multiple choices - 
-    class Meta:
-        unique_together = ('body_part', 'equipment', 'name')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exercises', null=True, blank=True)
 
     def __str__(self):
-        return f"Exercise(body_part={self.body_part}, equipment={self.equipment}, name={self.name}, user={self.user}')"
+        return f"{self.name} ({self.bodyPart}) - {self.target} - {self.equipment} - {self.user}"
 
 # Model for adding exercises done in the workout of the TimeIndex with [FK] Workout and [FK] Exercise
 class WorkoutExercise(models.Model):
-    workout = models.ForeignKey(Workout,
-                                related_name="workout_exercises",
-                                on_delete=models.CASCADE
+    workout = models.ForeignKey(Workout, related_name="workout_exercises", on_delete=models.CASCADE
     )
 
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)

@@ -8,30 +8,33 @@ import InputGroup from "react-bootstrap/InputGroup";
 import * as exerciseApi from "../../../api/exerciseApi";
 
 
-const ANY_BODY_PART = "Any Body Part";
-const ANY_EQUIPMENT = "Any Equipment";
+const ANY_BODY_PART = "All target muscles";
+const ANY_EQUIPMENT = "All Equipment";
 
 
 const FilterExercises = ({RenderExercises, handleSelect}) => {
     const [visibleExercises, setVisibleExercises] = useState(null);
     const [input, setInput] = useState("");
-    const [selectedBodyPart, setSelectedBodyPart] = useState(ANY_BODY_PART);
+    const [selectedTarget, setselectedTarget] = useState(ANY_BODY_PART);
     const [selectedEquipment, setSelectedEquipment] = useState(ANY_EQUIPMENT);
 
     const {data: exercises} = useQuery('exercise', exerciseApi.getExercises);
 
     const queryClient = useQueryClient();
-    const bodyParts = queryClient.getQueryData("bodyParts");
-    const equipment = queryClient.getQueryData("equipment");
+    
+    const exerciseData = queryClient.getQueryData("exercise");
+    
+    const targets = exerciseData ? Array.from(new Set(exerciseData.map((exercise) => exercise.target))) : [];
+    const equipment = exerciseData ? Array.from(new Set(exerciseData.map((exercise) => exercise.equipment))) : [];
 
     useEffect(() => {
         let filteredExercises = exercises?.filter(obj => obj.name.toLowerCase().includes(input.toLowerCase()))
-        if (selectedBodyPart !== ANY_BODY_PART)
-            filteredExercises = filteredExercises.filter(obj => obj.body_part === selectedBodyPart);
+        if (selectedTarget !== ANY_BODY_PART)
+            filteredExercises = filteredExercises.filter(obj => obj.target === selectedTarget);
         if (selectedEquipment !== ANY_EQUIPMENT)
             filteredExercises = filteredExercises.filter(obj => obj.equipment === selectedEquipment);
         setVisibleExercises(filteredExercises);
-    }, [exercises, input, selectedBodyPart, selectedEquipment]);
+    }, [exercises, input, selectedTarget, selectedEquipment]);
 
     return (
         <>
@@ -43,22 +46,21 @@ const FilterExercises = ({RenderExercises, handleSelect}) => {
                         </InputGroup.Text>
                         <Form.Control
                             type="text"
-                            placeholder="Search"
+                            placeholder="Search any exercise"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                         />
                     </InputGroup>
                 </Form.Group>
             </Form>
-
             <Row>
                 <Col>
                     <ExerciseDropdown
                         dropdownId="dropdown-body-part"
                         label={ANY_BODY_PART}
-                        items={bodyParts}
-                        selected={selectedBodyPart}
-                        onSelect={setSelectedBodyPart}
+                        items={targets}
+                        selected={selectedTarget}
+                        onSelect={setselectedTarget}
                     />
                 </Col>
                 <Col>
@@ -71,7 +73,6 @@ const FilterExercises = ({RenderExercises, handleSelect}) => {
                     />
                 </Col>
             </Row>
-
             <RenderExercises exercises={visibleExercises} handleSelect={handleSelect}/>
         </>
     );

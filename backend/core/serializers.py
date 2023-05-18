@@ -29,10 +29,10 @@ class ExerciseSerializer(serializers.ModelSerializer):
         model = Exercise
         fields = '__all__'
 
-    def create(self, validated_data):
-        request_user = self.context['request'].user
-        instance = Exercise.objects.create(user=request_user, **validated_data)
-        return instance
+    #def create(self, validated_data):
+        #request_user = self.context['request'].user
+        #instance = Exercise.objects.create(user=request_user, **validated_data)
+        #return instance
 
 # Serializer for WorkoutExerciseDetail
 class WorkoutExerciseDetailSerializer(serializers.ModelSerializer):

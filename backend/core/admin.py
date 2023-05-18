@@ -8,7 +8,10 @@ class ProfileAdmin(admin.ModelAdmin):
 
 # Admin models to be able to view user exercises
 class ExerciseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'body_part', 'name', 'equipment', 'description', 'user')
+    list_display = ('name', 'bodyPart', 'target', 'equipment', 'api_id', 'user')
+    list_filter = ('name', 'target', 'equipment')
+    search_fields = ('name', 'target', 'equipment')
+    readonly_fields = ('gifUrl', 'api_id', 'user', 'bodyPart')
 
 # Admin models to be able to view user workouts
 class WorkoutAdmin(admin.ModelAdmin):
