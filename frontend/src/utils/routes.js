@@ -5,9 +5,7 @@ export const apiRoutes = {
     blacklist: '/auth/blacklist/',
     profile: '/profile/',
     workout: '/workout/',
-    exercise: '/exercises/',
-    bodyParts: '/exercise/body_parts/',
-    equipment: '/exercise/equipment/',
+    exercises: '/exercises/',
 };
 
 export const pageRoutes = {

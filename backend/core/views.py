@@ -25,27 +25,13 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated, IsOwner]
     serializer_class = ExerciseSerializer
     queryset = Exercise.objects.all()
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name', 'equipment', 'target']
     http_method_names = ['get', 'post', 'delete']
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        search_params = self.request.query_params.get('search')
-        
-        if search_params:
-            search_params = search_params.split(',')
-            # Create a Q object to combine the filter conditions
-            conditions = Q()
-            
-            # Add individual conditions for each field
-            for param in search_params:
-                conditions |= Q(name__icontains=param) | Q(equipment__icontains=param) | Q(target__icontains=param)
-            
-            # Apply the conditions to the queryset
-            queryset = queryset.filter(conditions)
-            
-        return queryset
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # Include the entire list of exercises
+        response_data = EXERCISES
+        return Response(response_data)
     
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

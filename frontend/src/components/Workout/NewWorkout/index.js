@@ -36,9 +36,9 @@ const NewWorkout = () => {
 
     return (
         <div className="mt-2">
-            <h2 className="text-center">New workout</h2>
+            <h2 className="text-center">Log a new workout</h2>
             <div className="text-secondary">
-                <strong>Status:</strong> Started | {timestampToString(new Date())}
+                <strong>Status:</strong> Started on {timestampToString(new Date())}
             </div>
 
             <ListWorkoutExercises/>

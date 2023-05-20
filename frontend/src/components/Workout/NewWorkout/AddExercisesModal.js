@@ -20,12 +20,12 @@ const AddExercisesModal = (props) => {
     const handleSelect = (e) => {
         const {id, checked} = e.target;
         if (checked) {
-            setSelectedExercises(prevState => [...prevState, parseInt(id)])
+            setSelectedExercises(prevState => [...prevState, id])
         } else {
-            setSelectedExercises(prevState => prevState.filter(i => parseInt(i) !== id))
+            setSelectedExercises(prevState => prevState.filter(i => i !== id))
         }
     }
-
+    
     const handleAddExercises = () => {
         if (selectedExercises.length < 1) {
             toast.error("You did not selected an Exercise!");

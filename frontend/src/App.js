@@ -22,8 +22,7 @@ const App = () => {
     const dispatch = useDispatch();
     const authenticated = useSelector((state) => state.auth.authenticated);
     // Fetch initial data that will be used by several components
-    useQuery('bodyParts', exerciseApi.getBodyParts, {staleTime: Infinity, enabled: authenticated});
-    useQuery('equipment', exerciseApi.getEquipment, {staleTime: Infinity, enabled: authenticated});
+    useQuery('exercises', exerciseApi.getExercises, {staleTime: Infinity, enabled: authenticated});
     useQuery('profile', profileApi.getProfile, {
         onSuccess: (data) => dispatch(updateWeightUnit(data["weight_system"])),
         enabled: authenticated

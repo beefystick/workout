@@ -12,15 +12,19 @@ const SelectExercises = ({ exercises, handleSelect }) => {
                 <Form.Check.Input type="checkbox" />
                 <Form.Check.Label>
                   <div className="exercise-gif">
-                    <div className="exercise-gif">
-                      <img src={exercise.gifUrl} alt="Exercise GIF" />
+                    <div className="d-flex align-items-center">
+                      {exercise.gifUrl && (
+                        <div className="mr-3">
+                          <img src={exercise.gifUrl} alt={exercise.name} width="150" height="150" />
+                        </div>
+                      )}
+                    <div>
+                      <h6 className="mb-0" style={{ fontSize: "20px" }} >{exercise.name}</h6>
+                      <span className="text-muted">
+                        <p>Equipment: {exercise.equipment}</p>
+                        < p>Targets: {exercise.target}</p>
+                      </span>
                     </div>
-                    <div className="exercise-name">
-                      <h6 style={{ fontSize: "20px" }}>{exercise.name}</h6>
-                      <p className="exercise-info">
-                        Equipment: {exercise.equipment} <br />
-                        Target: {exercise.target}
-                      </p>
                     </div>
                   </div>
                 </Form.Check.Label>

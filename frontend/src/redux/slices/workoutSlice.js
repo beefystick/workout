@@ -24,7 +24,7 @@ export const workoutSlice = createSlice({
             return initialState;
         },
         addExercises: (state, action) => {
-            const exercises = queryClient.getQueryData("exercise");
+            const exercises = queryClient.getQueryData("exercises");
             const exercisesToAdd = action.payload.map(id => exercises.find(exercise => exercise.id === id));
             exercisesToAdd.map(exercise => exercise["workout_exercise_details"] = [initialExerciseDetails])
             exercisesToAdd.map(exercise => exercise["exercise"] = exercise.id)

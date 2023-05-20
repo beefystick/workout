@@ -27,25 +27,25 @@ const NavigationBar = () => {
 
                 <Nav.Item>
                     <Nav.Link as={Link} to={pageRoutes.profile} eventKey={pageRoutes.profile}>
-                        Profile
+                        My Profile
                     </Nav.Link>
                 </Nav.Item>
 
                 <Nav.Item>
                     <Nav.Link as={Link} to={pageRoutes.workout} eventKey={pageRoutes.workout}>
-                        Workout
+                        Create Workout
                     </Nav.Link>
                 </Nav.Item>
 
                 <Nav.Item>
                     <Nav.Link as={Link} to={pageRoutes.history} eventKey={pageRoutes.history}>
-                        History
+                        Workout History
                     </Nav.Link>
                 </Nav.Item>
 
                 <Nav.Item>
                     <Nav.Link as={Link} to={pageRoutes.exercises} eventKey={pageRoutes.exercises}>
-                        Exercises
+                        All Exercises
                     </Nav.Link>
                 </Nav.Item>
 

@@ -3,7 +3,7 @@ const Footer = () => (
     <p className="mb-0">
       Made with JavaScript, CSS, HTML, Django, and SQLite by{' '}
       <a href="https://gregarious-dasik-0d8f26.netlify.app" target="_blank" rel="noreferrer">
-        Gyan ©2023
+        Gyan in 2023
       </a>
     </p>
     <p className="mb-0">
