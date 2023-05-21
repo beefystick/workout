@@ -31,6 +31,7 @@ const NewWorkout = () => {
             "status": "Finished",
             "workout_exercises": exercises
         }
+        console.log("Payload: ", JSON.stringify(payload));
         createWorkoutMutation.mutate(payload);
     }
 

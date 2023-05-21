@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 # Import models for serialization
 from core.models import Profile, Exercise, Workout, WorkoutExercise, WorkoutExerciseDetail
+from .workoutdata import EXERCISES
 
 # DO NOT CHANGE ORDER OF SERIALIZERS DUE TO DEPENDENCIES FROM LAST 3
 
@@ -28,11 +29,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
         fields = '__all__'
-
-    #def create(self, validated_data):
-        #request_user = self.context['request'].user
-        #instance = Exercise.objects.create(user=request_user, **validated_data)
-        #return instance
+        read_only_fields = ['id', 'bodyPart', 'equipment', 'gifUrl', 'name', 'target']
 
 # Serializer for WorkoutExerciseDetail
 class WorkoutExerciseDetailSerializer(serializers.ModelSerializer):
@@ -42,12 +39,19 @@ class WorkoutExerciseDetailSerializer(serializers.ModelSerializer):
 
 # Serializer for WorkoutExercise
 class WorkoutExerciseSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source='exercise.name', read_only=True)
+    name = serializers.SerializerMethodField()
     workout_exercise_details = WorkoutExerciseDetailSerializer(many=True, required=False)
+    exercise = serializers.CharField()
 
     class Meta:
         model = WorkoutExercise
         fields = ['id', 'exercise', 'name', 'workout_exercise_details']
+
+    def get_name(self, obj):
+        # Search for the exercise id in the EXERCISES list and return its name
+        exercise = next((exercise for exercise in EXERCISES if exercise['id'] == obj.exercise), None)
+        return exercise['name'] if exercise else None
+
 
 # Serializer for Workouts
 class WorkoutSerializer(serializers.ModelSerializer):
@@ -58,15 +62,24 @@ class WorkoutSerializer(serializers.ModelSerializer):
         fields = ['id', 'status', 'created', 'modified', 'workout_exercises']
 
     def create(self, validated_data):
-        request_user = self.context['request'].user
-        instance = Workout.objects.create(user=request_user, status=validated_data.pop('status'))
+        workout_exercises_data = validated_data.pop('workout_exercises')
+        workout = Workout.objects.create(**validated_data)
+        for workout_exercise_data in workout_exercises_data:
+            workout_exercise_details_data = workout_exercise_data.pop('workout_exercise_details')
+            workout_exercise = WorkoutExercise.objects.create(workout=workout, **workout_exercise_data)
+            for workout_exercise_detail_data in workout_exercise_details_data:
+                WorkoutExerciseDetail.objects.create(workout_exercise=workout_exercise, **workout_exercise_detail_data)
+        return workout
+    
+    def to_representation(self, instance):
+        # Get the base representation
+        data = super().to_representation(instance)
 
-        if 'workout_exercises' in validated_data:
-            for data in validated_data.pop('workout_exercises'):
-                exercise = data.get('exercise')
-                workout_exercise = WorkoutExercise.objects.create(workout=instance, exercise=exercise)
+        # Add the exercise details from the EXERCISES list
+        for workout_exercise in instance.workout_exercises.all():
+            exercise = next((exercise for exercise in EXERCISES if exercise['id'] == workout_exercise.exercise), None)
+            if exercise is not None:
+                data['workout_exercises'].append(exercise)
 
-                if 'workout_exercise_details' in data:
-                    for exercise_details in data.get('workout_exercise_details'):
-                        WorkoutExerciseDetail.objects.create(workout_exercise=workout_exercise, **exercise_details)
-        return instance
+        return data
+

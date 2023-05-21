@@ -45,28 +45,20 @@ class Exercise(models.Model):
     bodyPart = models.CharField(max_length=100, null=True)
     equipment = models.CharField(max_length=100, null=True)
     gifUrl = models.URLField(max_length=200, null=True)
-    api_id = models.CharField(max_length=100, null=True)
+    id = models.CharField(max_length=5, primary_key=True)
     name = models.CharField(max_length=100, null=True)
     target = models.CharField(max_length=100, null=True)
     
-    sets = models.PositiveIntegerField(null=True, default=0)
-    weight = models.FloatField(null=True, default=0)
-    reps = models.PositiveIntegerField(null=True, default=0)
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exercises', null=True, blank=True)
-
     def __str__(self):
-        return f"{self.name} ({self.bodyPart}) - {self.target} - {self.equipment} - {self.user}"
+        return f"{self.name} - {self.target} - {self.equipment}"
 
 # Model for adding exercises done in the workout of the TimeIndex with [FK] Workout and [FK] Exercise
 class WorkoutExercise(models.Model):
-    workout = models.ForeignKey(Workout, related_name="workout_exercises", on_delete=models.CASCADE
-    )
-
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    workout = models.ForeignKey(Workout, related_name="workout_exercises", on_delete=models.CASCADE)
+    exercise = models.CharField(max_length=5)
 
     def __str__(self):
-        return f"WorkoutExercise(workout={self.workout.user.username}, exercise={self.exercise.name})"
+        return f"WorkoutExercise(workout={self.workout.user.username}, exercise={self.exercise})"
 
 # Model for the details of the exercise done in a particular workout with [FK] WorkoutExercise
 class WorkoutExerciseDetail(models.Model):
