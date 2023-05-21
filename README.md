@@ -1,8 +1,12 @@
-# Workout App (Backend)
+# Workout Tracker
 
-This README provides instructions for setting up and running the backend of the Workout app.
+Hey there! I'm Gyan, a recent BSc Biotechnology student trying to improve my skills in programming using JavaScript and Python. As a fitness enthusiast, I've always found it challenging to effectively track and organize my workouts. That's why I took on the task of creating a Workout Tracker as a personal project and to improve my programming skills.
 
-## Local Development
+The goal of this Workout Tracker is to simplify the process of recording and monitoring workout sessions. Combining my programming skills with my passion for fitness, I embarked on this project to develop an application that would help me easily keep track of my workouts in a seamless and efficient way.
+
+Now, let's dive into setting up the Workout Tracker! We have two components to set up separately: the backend and the frontend. Don't worry—I'll guide you through the steps for each one. Let's get started!
+
+## Backend Setup
 
 To set up the local development environment for the backend, follow these steps:
 
@@ -35,11 +39,7 @@ To set up the local development environment for the backend, follow these steps:
 
    This will **install** the required dependencies, **perform** necessary database migrations, **create** a superuser, and **start** the Django development server.
 
-# Workouts App (Frontend)
-
-This README provides instructions for setting up and running the frontend of the Workouts app.
-
-## Local Development
+## Frontend Setup
 
 To set up the local development environment for the frontend, follow these steps:
 
