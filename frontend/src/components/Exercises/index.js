@@ -6,11 +6,11 @@ import ViewExercises from "./FilterExercises/ViewExercises";
 
 const Exercises = () => {
     return (
-        <div className="mt-2">
+        <div className="mt-2 text-center">
             <Stack gap={2}>
                 <Row>
                     <Col>
-                        <h2>Exercises</h2>
+                        <h2>All Exercises</h2>
                     </Col>
                 </Row>
                 <FilterExercises RenderExercises={ViewExercises}/>

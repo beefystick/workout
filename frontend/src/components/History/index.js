@@ -4,12 +4,13 @@ import {toast} from "react-toastify";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Badge from "react-bootstrap/Badge";
 import WorkoutExercise from "./WorkoutExercise";
 import * as api from "../../api/workoutApi";
 import {timestampToString} from "../../utils/helpers";
 import {Link} from "react-router-dom";
 import {pageRoutes} from "../../utils/routes";
-
 
 const WorkoutHistory = () => {
     const {data} = useQuery('workout', api.getWorkoutHistory);
@@ -28,7 +29,7 @@ const WorkoutHistory = () => {
 
     return (
         <div className="mt-2">
-            <h2 className="text-center">History</h2>
+            <h2 className="text-center">My Workout History</h2>
 
             {data?.length === 0 &&
                 <div className="text-center mt-5">
@@ -37,12 +38,12 @@ const WorkoutHistory = () => {
                 </div>
             }
 
-            <ListGroup variant="flush">
-                {data?.map(workout =>
-                    <ListGroup.Item key={workout.id}  className="workout mb-2">
+            {data?.map(workout =>
+                <Card className="mb-4 shadow-sm" key={workout.id}>
+                    <Card.Header as="h5">
                         <Row>
                             <Col>
-                                <h5>Workout</h5>
+                                Workout: <Badge bg="success">{workout.status}</Badge>
                             </Col>
                             <Col>
                                 <Button
@@ -53,13 +54,15 @@ const WorkoutHistory = () => {
                                 </Button>
                             </Col>
                         </Row>
-                        <div className="text-secondary">
-                            <strong>Status:</strong> Status: {workout.status} | {timestampToString(workout.created)}
-                        </div>
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Subtitle className="mb-2 text-muted">
+                            Started on {timestampToString(workout.created)}
+                        </Card.Subtitle>
                         <WorkoutExercise exercises={workout?.["workout_exercises"]}/>
-                    </ListGroup.Item>
-                )}
-            </ListGroup>
+                    </Card.Body>
+                </Card>
+            )}
         </div>
     );
 };

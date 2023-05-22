@@ -8,6 +8,8 @@ import * as yup from "yup";
 import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Spinner from "react-bootstrap/Spinner";
 import InputGroup from "react-bootstrap/InputGroup";
 import * as api from "../../api/authApi";
 import {login} from "../../redux/slices/authSlice";
@@ -50,90 +52,94 @@ const Register = () => {
     });
 
     return (
-        <div>
-            <Stack gap={2} className="col-md-10 mx-auto">
-                <h1 className="text-center m-3">{process.env.REACT_APP_NAME}</h1>
-                <h2 className="text-center">Register</h2>
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+            <Card style={{ width: '30rem' }} className="p-4 shadow-sm">
+                <Card.Body>
+                    <Stack gap={3}>
+                        <h2 className="text-center">Register</h2>
 
-                <Formik
-                    validationSchema={schema}
-                    onSubmit={(values) => registerMutation.mutate(values)}
-                    initialValues={{username: "", email: "", password: ""}}
-                >
-                    {({handleSubmit, handleChange, values, touched, errors}) => (
-                        <Form noValidate onSubmit={handleSubmit}>
+                        <Formik
+                            validationSchema={schema}
+                            onSubmit={(values) => registerMutation.mutate(values)}
+                            initialValues={{username: "", email: "", password: ""}}
+                        >
+                            {({handleSubmit, handleChange, values, touched, errors}) => (
+                                <Form noValidate onSubmit={handleSubmit}>
 
-                            <Form.Group className="mb-2" controlId="signupEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control
-                                    type="email"
-                                    name="email"
-                                    placeholder="name@example.com"
-                                    autoComplete="on"
-                                    value={values.email}
-                                    onChange={handleChange}
-                                    isInvalid={touched.email && errors.email}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.email}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-
-                            <Form.Group className="mb-2" controlId="signupUsername">
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="username"
-                                    placeholder="Username"
-                                    autoComplete="off"
-                                    value={values.username}
-                                    onChange={handleChange}
-                                    isInvalid={touched.username && errors.username}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.username}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-
-                            <Form.Group className="mb-2" controlId="signupPassword">
-                                <Form.Label>Password</Form.Label>
-                                <InputGroup>
-                                    <Form.Control
-                                        type={showPassword ? "text" : "password"}
-                                        name="password"
-                                        placeholder="Password"
-                                        autoComplete="off"
-                                        value={values.password}
-                                        onChange={handleChange}
-                                        isInvalid={touched.password && errors.password}
-                                    />
-                                    <InputGroup.Text>
-                                        <i
-                                            onClick={() => setShowPassword(!showPassword)}
-                                            className={showPassword ? "fas fa-eye-slash" : "fas fa-eye"}
+                                    <Form.Group className="mb-3" controlId="signupEmail">
+                                        <Form.Label>Email:</Form.Label>
+                                        <Form.Control
+                                            type="email"
+                                            name="email"
+                                            placeholder="name@example.com"
+                                            autoComplete="on"
+                                            value={values.email}
+                                            onChange={handleChange}
+                                            isInvalid={touched.email && errors.email}
                                         />
-                                    </InputGroup.Text>
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.password}
-                                    </Form.Control.Feedback>
-                                </InputGroup>
-                            </Form.Group>
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.email}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
 
-                            <div className="col-md-12 text-center">
-                                <Button variant="primary" size="lg" type="submit">
-                                    Register
-                                </Button>
-                            </div>
+                                    <Form.Group className="mb-3" controlId="signupUsername">
+                                        <Form.Label>Username:</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="username"
+                                            placeholder="Username"
+                                            autoComplete="off"
+                                            value={values.username}
+                                            onChange={handleChange}
+                                            isInvalid={touched.username && errors.username}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.username}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
 
-                        </Form>)}
-                </Formik>
+                                    <Form.Group className="mb-3" controlId="signupPassword">
+                                        <Form.Label>Password:</Form.Label>
+                                        <InputGroup>
+                                            <Form.Control
+                                                type={showPassword ? "text" : "password"}
+                                                name="password"
+                                                placeholder="Password"
+                                                autoComplete="off"
+                                                value={values.password}
+                                                onChange={handleChange}
+                                                isInvalid={touched.password && errors.password}
+                                            />
+                                            <InputGroup.Text>
+                                                <i
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    className={showPassword ? "fas fa-eye-slash" : "fas fa-eye"}
+                                                />
+                                            </InputGroup.Text>
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.password}
+                                            </Form.Control.Feedback>
+                                        </InputGroup>
+                                    </Form.Group>
 
-                <div className="col-md-12 text-center">
-                    Already a member? <Link to={pageRoutes.login}>Log In</Link>
-                </div>
+                                    <div className="text-center">
+                                        <Button variant="primary" size="lg" type="submit">
+                                            {registerMutation.isLoading ? <Spinner animation="border" size="sm"/> : "Register"}
+                                        </Button>
+                                    </div>
 
-            </Stack>
-        </div>);
+                                </Form>)}
+                        </Formik>
+
+                        <div className="text-center">
+                            Already a user? <Link to={pageRoutes.login}>Log In</Link>
+                        </div>
+
+                    </Stack>
+                </Card.Body>
+            </Card>
+        </div>
+    );
 };
 
 export default Register;

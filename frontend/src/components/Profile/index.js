@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import * as profileApi from "../../api/profileApi";
 import * as authApi from "../../api/authApi";
 import { timestampToString } from "../../utils/helpers";
@@ -40,59 +41,49 @@ const Profile = () => {
   });
 
   return (
-    <div className="container mt-5">
-      <div className="card mx-auto" style={{ maxWidth: "400px" }}>
-        <div className="card-header text-center">
-          <h2>Profile</h2>
-        </div>
-        <div className="card-body">
-          <div className="mb-3">
-            <strong>Email:</strong> {profileData?.email}
-          </div>
-          <div className="mb-3">
-            <strong>Username:</strong> {profileData?.username}
-          </div>
-          <div className="mb-3">
+    <div className="container mt-5 d-flex justify-content-center">
+      <Card style={{ maxWidth: "500px" }} className="shadow-sm">
+        <Card.Body className="text-center">
+          <h2 className="mb-4">My Profile</h2>
+          <p><strong>Email:</strong> {profileData?.email}</p>
+          <p><strong>Username:</strong> {profileData?.username}</p>
+          <p>
             <strong>Weight unit:</strong>
             <ToggleButtonGroup
               name="metric-system"
               type="radio"
               value={weightUnit}
               size="sm"
-              className="mx-1"
+              className="mx-1 d-block mt-2"
               onChange={handleWeightUnitChange}
             >
               <ToggleButton
                 id="btn-kg"
-                variant={weightUnit === "kg" ? "primary" : "secondary"}
+                variant={weightUnit === "kg" ? "primary" : "outline-primary"}
                 value="kg"
               >
                 Metric (kg)
               </ToggleButton>
               <ToggleButton
                 id="btn-lbs"
-                variant={weightUnit === "lbs" ? "primary" : "secondary"}
+                variant={weightUnit === "lbs" ? "primary" : "outline-primary"}
                 value="lbs"
               >
                 Imperial (lbs)
               </ToggleButton>
             </ToggleButtonGroup>
-          </div>
-          <div className="mb-3">
-            <strong>Account created:</strong>{" "}
-            {timestampToString(profileData?.created)}
-          </div>
-          <div className="text-center">
-            <Button
-              variant="danger"
-              size="lg"
-              onClick={() => logoutMutation.mutate()}
-            >
-              Log out
-            </Button>
-          </div>
-        </div>
-      </div>
+          </p>
+          <p><strong>Account created on:</strong> {timestampToString(profileData?.created)}</p>
+          <Button
+            variant="danger"
+            size="lg"
+            className="mt-4"
+            onClick={() => logoutMutation.mutate()}
+          >
+            Log out
+          </Button>
+        </Card.Body>
+      </Card>
     </div>
   );
 };

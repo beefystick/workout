@@ -1,41 +1,39 @@
-import {useDispatch, useSelector} from "react-redux";
-import {ListGroup} from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Card, Button } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import AddWorkoutExerciseDetails from "./AddWorkoutExerciseDetails";
-import {deleteExercise} from "../../../redux/slices/workoutSlice";
-
+import { deleteExercise } from "../../../redux/slices/workoutSlice";
 
 const ListWorkoutExercises = () => {
     const exercises = useSelector((state) => state.workout.exercises);
     const dispatch = useDispatch();
 
     return (
-        <div className="list-workout-exercises-scroll-container">
-            <h6 className="mt-2">Exercises:</h6>
-            <ListGroup variant="flush" className="scroll">
-                {exercises?.map((exercise, index) =>
-                    <ListGroup.Item key={index}>
+        <div className="list-workout-exercises-scroll-container mt-2">
+            <h4 className="mb-3">Performed Exercises:</h4>
+            {exercises?.map((exercise, index) =>
+                <Card className="mb-3" key={index}>
+                    <Card.Body>
                         <Row>
                             <Col>
-                                <h5>{exercise.name} ({exercise.equipment})</h5>
+                                <Card.Title>{exercise.name}</Card.Title>
+                                <Card.Subtitle className="mb-2 text-muted">Equipment: {exercise.equipment}</Card.Subtitle>
+                                <Card.Subtitle className="mb-2 text-muted">Target: {exercise.target}</Card.Subtitle>
                             </Col>
-                            <Col>
+                            <Col xs="auto">
                                 <Button
-                                    className="float-end"
                                     variant="danger"
-                                    size="sm"
                                     onClick={() => dispatch(deleteExercise(index))}
                                 >
-                                    Delete Exercise
+                                    Remove Exercise
                                 </Button>
                             </Col>
                         </Row>
                         <AddWorkoutExerciseDetails exercise={exercise} exerciseIndex={index}/>
-                    </ListGroup.Item>
-                )}
-            </ListGroup>
+                    </Card.Body>
+                </Card>
+            )}
         </div>
     );
 };

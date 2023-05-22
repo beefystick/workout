@@ -5,12 +5,11 @@ import Col from "react-bootstrap/Col";
 import ExerciseDropdown from "./ExerciseDropdown";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import Card from 'react-bootstrap/Card';
 import * as exerciseApi from "../../../api/exerciseApi";
-
 
 const ANY_BODY_PART = "All target muscles";
 const ANY_EQUIPMENT = "All Equipment";
-
 
 const FilterExercises = ({RenderExercises, handleSelect}) => {
     const [visibleExercises, setVisibleExercises] = useState(null);
@@ -37,44 +36,46 @@ const FilterExercises = ({RenderExercises, handleSelect}) => {
     }, [exercises, input, selectedTarget, selectedEquipment]);
 
     return (
-        <>
-            <Form>
-                <Form.Group className="mb-2" controlId="search-exercises">
-                    <InputGroup>
-                        <InputGroup.Text>
-                            <i className="fas fa-search"/>
-                        </InputGroup.Text>
-                        <Form.Control
-                            type="text"
-                            placeholder="Search any exercise"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
+        <Card>
+            <Card.Body>
+                <Form>
+                    <Form.Group className="mb-2" controlId="search-exercises">
+                        <InputGroup>
+                            <InputGroup.Text>
+                                <i className="fas fa-search"/>
+                            </InputGroup.Text>
+                            <Form.Control
+                                type="text"
+                                placeholder="Search all exercises"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                            />
+                        </InputGroup>
+                    </Form.Group>
+                </Form>
+                <Row>
+                    <Col>
+                        <ExerciseDropdown
+                            dropdownId="dropdown-body-part"
+                            label={ANY_BODY_PART}
+                            items={targets}
+                            selected={selectedTarget}
+                            onSelect={setselectedTarget}
                         />
-                    </InputGroup>
-                </Form.Group>
-            </Form>
-            <Row>
-                <Col>
-                    <ExerciseDropdown
-                        dropdownId="dropdown-body-part"
-                        label={ANY_BODY_PART}
-                        items={targets}
-                        selected={selectedTarget}
-                        onSelect={setselectedTarget}
-                    />
-                </Col>
-                <Col>
-                    <ExerciseDropdown
-                        dropdownId="dropdown-equipment"
-                        label={ANY_EQUIPMENT}
-                        items={equipment}
-                        selected={selectedEquipment}
-                        onSelect={setSelectedEquipment}
-                    />
-                </Col>
-            </Row>
-            <RenderExercises exercises={visibleExercises} handleSelect={handleSelect}/>
-        </>
+                    </Col>
+                    <Col>
+                        <ExerciseDropdown
+                            dropdownId="dropdown-equipment"
+                            label={ANY_EQUIPMENT}
+                            items={equipment}
+                            selected={selectedEquipment}
+                            onSelect={setSelectedEquipment}
+                        />
+                    </Col>
+                </Row>
+                <RenderExercises exercises={visibleExercises} handleSelect={handleSelect}/>
+            </Card.Body>
+        </Card>
     );
 };
 
