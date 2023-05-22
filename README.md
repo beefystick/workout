@@ -2,7 +2,12 @@
 
 Hey there! I'm Gyan, a recent BSc Biotechnology student trying to improve my skills in programming using JavaScript and Python. As a fitness enthusiast, I've always found it challenging to effectively track and organize my workouts. That's why I took on the task of creating a Workout Tracker as a personal project and to improve my programming skills.
 
-The goal of this Workout Tracker is to simplify the process of recording and monitoring workout sessions. Combining my programming skills with my passion for fitness, I embarked on this project to develop an application that would help me easily keep track of my workouts in a seamless and efficient way.
+The goal of this Workout Tracker is to simplify the process of recording and monitoring workout sessions. Combining my programming skills with my passion for fitness, I embarked on this project to develop an application that would help me easily keep track of my workouts in a efficient way.
+
+Possible components to add:
+BMI tracker
+Weight tracker, big 3 lifts trackers (with graphs)
+Page to show recommended workouts based on muscle groups (or something else?)
 
 Now, let's dive into setting up the Workout Tracker! We have two components to set up separately: the backend and the frontend. Don't worry—I'll guide you through the steps for each one. Let's get started!
 
