@@ -1,7 +1,7 @@
 import { Container, Button } from 'react-bootstrap';
 
 const Footer = () => (
-  <footer className="bg-dark text-white py-4">
+  <footer className="bg-light text-dark py-4">
     <Container className="text-center">
       <h6 style={{ fontWeight: 'bold', color: '#28a745' }}>
         Developed by Gyan with React & Django
@@ -12,7 +12,7 @@ const Footer = () => (
         </small>
       </p>
       <Button 
-        variant="outline-light" 
+        variant="outline-dark" 
         className="mb-3 mt-3"
         href="https://gregarious-dasik-0d8f26.netlify.app/#contact"
         target="_blank"
